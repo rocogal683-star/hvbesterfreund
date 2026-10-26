@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy German: Beste Freunde (B1.1 - Hörverstehen)</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-body: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --correct-bg: #dcfce7;
+            --correct-border: #16a34a;
+            --correct-text: #15803d;
+            --incorrect-bg: #fee2e2;
+            --incorrect-border: #dc2626;
+            --incorrect-text: #b91c1c;
+            --border-color: #e2e8f0;
+            --vocab-bg: #f1f5f9;
+            --vocab-border: #cbd5e1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 850px;
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            padding: 30px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .level-badge {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #3730a3;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .main-yt-banner {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #ff0000;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: background 0.2s;
+            margin-top: 5px;
+        }
+
+        .main-yt-banner:hover {
+            background: #cc0000;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background: #e2e8f0;
+            height: 12px;
+            border-radius: 6px;
+            margin: 20px 0 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        .question-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            border: 3px solid var(--primary);
+            flex-shrink: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .person-info {
+            flex-grow: 1;
+        }
+
+        .person-tag {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .friend-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .yt-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #ff0000;
+            color: white;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .yt-btn:hover {
+            background: #cc0000;
+        }
+
+        .question-text {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .option-btn {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 10px 14px;
+            text-align: left;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-main);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: #e2e8f0;
+            border-color: #94a3b8;
+        }
+
+        .option-btn:disabled {
+            cursor: default;
+        }
+
+        .option-btn.selected-correct {
+            background: var(--correct-bg) !important;
+            border-color: var(--correct-border) !important;
+            color: var(--correct-text) !important;
+            font-weight: 600;
+        }
+
+        .option-btn.selected-incorrect {
+            background: var(--incorrect-bg) !important;
+            border-color: var(--incorrect-border) !important;
+            color: var(--incorrect-text) !important;
+        }
+
+        .feedback-box {
+            margin-top: 15px;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            display: none;
+            line-height: 1.5;
+        }
+
+        .feedback-box.show {
+            display: block;
+        }
+
+        .feedback-correct {
+            background: var(--correct-bg);
+            border: 1px solid var(--correct-border);
+            color: var(--correct-text);
+        }
+
+        .feedback-incorrect {
+            background: var(--incorrect-bg);
+            border: 1px solid var(--incorrect-border);
+            color: var(--incorrect-text);
+        }
+
+        .vocab-box {
+            margin-top: 10px;
+            padding: 10px 12px;
+            background: var(--vocab-bg);
+            border: 1px solid var(--vocab-border);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #334155;
+        }
+
+        .vocab-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .results-card {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .results-card h2 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .score-display {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 15px 0;
+        }
+
+        .restart-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .restart-btn:hover {
+            background: var(--primary-hover);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <span class="level-badge">Niveau B1.1</span>
+        <h1>Easy German: Wie ist dein bester Freund?</h1>
+        <p class="subtitle">Schau dir die Ausschnitte auf YouTube an und beantworte die Fragen. Die Aufgaben folgen der Reihenfolge im Video.</p>
+        <a href="https://youtu.be/zI8IEutHHD4" target="_blank" class="main-yt-banner">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            Gesamtes Video auf YouTube ansehen
+        </a>
+    </header>
+
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="stats-bar">
+        <span>Fortschritt: <span id="answeredCount">0</span> / 22</span>
+        <span>Punkte: <span id="scoreCount">0</span></span>
+    </div>
+
+    <div id="quizContainer"></div>
+
+    <div class="results-card" id="resultsCard">
+        <h2>Gut gemacht!</h2>
+        <p>Du hast das Quiz abgeschlossen.</p>
+        <div class="score-display" id="finalScore">0 / 22</div>
+        <p id="finalMessage" style="margin-bottom: 20px; color: var(--text-muted);"></p>
+        <button class="restart-btn" onclick="restartQuiz()">Quiz neu starten</button>
+    </div>
+</div>
+
+<script>
+const quizData = [
+    // PARTE 1
+    {
+        id: 1,
+        friend: "Beste Freundin: Marlene",
+        time: "0:14",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=14s",
+        image: "https://lh3.googleusercontent.com/d/1i7fFRaoLG6LpZTYHXs4Nsvn5tmwzhNhc",
+        type: "mc",
+        question: "1. Woher kennen sich die beiden Freundinnen?",
+        options: [
+            "A) Sie haben sich an der Universität kennengelernt.",
+            "B) Sie sind zusammen in Berlin zur Schule gegangen.",
+            "C) Sie haben sich vor zehn Jahren bei der Arbeit kennengelernt."
+        ],
+        correct: 1,
+        explanation_de: "Sie sagt: 'Wir haben uns in der Schule kennengelernt... wir kommen beide aus Berlin und sind auf die gleiche Schule gegangen.'",
+        explanation_es: "Dice que se conocieron en el colegio en Berlín y que van a la misma escuela desde hace 10 años.",
+        vocab: "sich kennenlernen (haben sich kennengelernt) - conocer por primera vez; sich anfreunden (hat sich angefreundet) - hacerse amigos/as."
+    },
+    {
+        id: 2,
+        friend: "Bester Freund: Tim",
+        time: "0:31",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=31s",
+        image: "https://lh3.googleusercontent.com/d/1152UgJNZKjnRVeAA1imvukn5Kpyg94EV",
+        type: "rf",
+        question: "2. Richtig oder Falsch? Der Mann beschreibt Tim als einen sehr strukturierten Menschen, der klare Pläne braucht.",
+        options: [
+            "Richtig",
+            "Falsch"
+        ],
+        correct: 1,
+        explanation_de: "Er sagt: 'Er ist ein Freigeist... Er macht das, auf was er Bock hat und geht einfach nur mit dem Flow.'",
+        explanation_es: "Dice que Tim es un espíritu libre, espontáneo y que se deja llevar por el momento.",
+        vocab: "der Freigeist, die Freigeister - el espíritu libre, los espíritus libres; Bock auf etwas (Akk) haben = Lust auf etwas (Akk) haben – tener ganas de algo."
+    },
+    {
+        id: 3,
+        friend: "Beste Freundin: Aus der Studienzeit",
+        time: "1:00",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=60s",
+        image: "https://lh3.googleusercontent.com/d/1mdtO2Lb6Ek8u1KyDKyymhFbTUxkNeYvB",
+        type: "mc",
+        question: "3. Seit wann kennen sich die beiden Frauen?",
+        options: [
+            "A) Seit etwa 20 Jahren.",
+            "B) Seit 1984 oder 1985 (ca. 40 Jahre).",
+            "C) Seit der Grundschulzeit."
+        ],
+        correct: 1,
+        explanation_de: "Sie antwortet: 'Seit 1985, 1984... das ist schon einige Zeit, 40 Jahre, wow.'",
+        explanation_es: "Responde que se conocen desde la época universitaria en 1984 u 1985 (unos 40 años).",
+        vocab: "sich schon lange kennen – conocerse desde hace mucho; befreundet sein - ser amigos/as."
+    },
+    {
+        id: 4,
+        friend: "Bester Freund: Verstorbener Jugendfreund",
+        time: "1:29",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=89s",
+        image: "https://lh3.googleusercontent.com/d/1ZbEqFvEdTmB4-idoaFYY5tNAxOHwBDiP",
+        type: "rf",
+        question: "4. Richtig oder Falsch? Der beste Freund von dem Mann lebt nicht mehr, aber er erinnert sich an ihn wie an einen 'James-Dean-Typ'.",
+        options: [
+            "Richtig",
+            "Falsch"
+        ],
+        correct: 0,
+        explanation_de: "Er sagt: 'Mein bester Freund der lebt gar nicht mehr... Er war schon so ein James-Dean-Typ und ein kleines Vorbild.'",
+        explanation_es: "Comenta que su mejor amigo falleció pero que guarda un recuerdo profundo de él como un referente de juventud.",
+        vocab: "das Vorbild, die Vorbilder - el modelo a seguir, el ejemplo; die Erinnerung, die Erinnerungen - el recuerdo, los recuerdos."
+    },
+    {
+        id: 5,
+        friend: "Beste Freunde: Ex-Freunde",
+        time: "2:02",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=122s",
+        image: "https://lh3.googleusercontent.com/d/1ZicOSvt0tw19nXm4W9HmfRZA7AeGzKUe",
+        type: "mc",
+        question: "5. Wer sind die besten Freunde von dieser Frau?",
+        options: [
+            "A) Ihre Kolleginnen aus der Arbeit.",
+            "B) Ihre drei oder vier Ex-Freunde.",
+            "C) Ihre Nachbarn aus Berlin."
+        ],
+        correct: 1,
+        explanation_de: "Sie erklärt: 'Meine besten Freunde sind eigentlich meine Ex-Freunde. Davon habe ich glaube ich drei oder vier.'",
+        explanation_es: "Explica que logró transformar la relación con sus tres o cuatro exnovios en una sólida amistad.",
+        vocab: "die Beziehung, die Beziehungen - la relación, las relaciones; umwandeln (hat umgewandelt) - transformar, convertir."
+    },
+    {
+        id: 6,
+        friend: "Bester Freund: Bobby",
+        time: "2:21",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=141s",
+        image: "https://lh3.googleusercontent.com/d/1nVDVe8O3ZZTdP1pa80jfqCbMa6TbSxNV",
+        type: "rf",
+        question: "6. Richtig oder Falsch? Bobby reist gern mit dem Auto durch die ganze Welt.",
+        options: [
+            "Richtig",
+            "Falsch"
+        ],
+        correct: 1,
+        explanation_de: "Der Mann sagt: 'Bobby ist dünn und fährt mit dem Fahrrad durch die ganze Welt... zum Beispiel von hier nach Marokko.'",
+        explanation_es: "Dice que Bobby viaja por todo el mundo haciendo rutas en bicicleta y acampando.",
+        vocab: "die Pfadfinder (Pl.) – los scouts; zelten (hat gezeltet) – acampar."
+    },
+    {
+        id: 7,
+        friend: "Beste Freundin: Merle Alexandra",
+        time: "3:08",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=188s",
+        image: "https://lh3.googleusercontent.com/d/1PmXbBcZyy9nMuE7B97o5HCLSLvW3Qq_O",
+        type: "mc",
+        question: "7. Wie beschreibt die Frau ihre Freundin Merle?",
+        options: [
+            "A) Sehr chaotisch und immer zu spät.",
+            "B) Sehr nüchtern, blond, befolgt Regeln, hat aber ein ganz tolles Herz.",
+            "C) Eine sportliche Frau, die in Marokko lebt."
+        ],
+        correct: 1,
+        explanation_de: "Sie sagt: 'Merle ist ein sehr nüchterner, sehr deutscher Mensch... mit ganz viel Liebe neben all den Regeln, die sie befolgt.'",
+        explanation_es: "Describe a Merle como una persona sensata, metódica y respetuosa con las reglas pero muy cariñosa.",
+        vocab: "nüchtern sein - ser sensato/a, objetivo/a, práctico/a; etwas (Akk) befolgen (hat befolgt) z.B. “die Regeln befolgen” - cumplir, seguir las normas."
+    },
+    {
+        id: 8,
+        friend: "Bester Freund: Henry",
+        time: "3:35",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=215s",
+        image: "https://lh3.googleusercontent.com/d/18F8CxfwhIRObgHkUpwxfirYir656ezXK",
+        type: "rf",
+        question: "8. Richtig oder Falsch? Henry ist genau wie der Mann: sehr ernst und immer gestresst.",
+        options: [
+            "Richtig",
+            "Falsch"
+        ],
+        correct: 1,
+        explanation_de: "Er sagt: 'Henry ist ganz anders als ich. Er ist ultra entspannt, nimmt kaum was ernst und ist sehr locker.'",
+        explanation_es: "Aclara que Henry es todo lo contrario a él: una persona súper relajada y divertida.",
+        vocab: "entspannt sein – estar/ser relajado/a; etwas (Akk) ernst nehmen – tomar algo en serio; locker - informal, desenfadado/a; unterschiedlich sein – ser diferente."
+    },
+    {
+        id: 9,
+        friend: "Beste Freundin: Claudia",
+        time: "4:00",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=240s",
+        image: "https://lh3.googleusercontent.com/d/1TS9XzhJPNpx_lUf97g8ofGqvjU7cloac",
+        type: "mc",
+        question: "9. Was ist das Besondere an der Freundschaft mit Claudia?",
+        options: [
+            "A) Sie arbeiten zusammen in derselben Firma.",
+            "B) Sie können sich ein Jahr nicht sehen, aber wenn sie sich treffen, ist es sofort wie früher.",
+            "C) Sie wohnen im selben Haus."
+        ],
+        correct: 1,
+        explanation_de: "Sie sagt: 'Wir können uns ein Jahr nicht sehen und setzen uns zusammen, und es ist, als hätten wir uns gestern das letzte Mal gesehen.'",
+        explanation_es: "Menciona que aunque pase un año sin verse, la complicidad vuelve a ser inmediata.",
+        vocab: "sich wiedersehen (hat wiedergesehen) - volverse a ver; damals – por aquel entonces."
+    },
+    {
+        id: 10,
+        friend: "Beste Freundin: Theresa",
+        time: "4:30",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=270s",
+        image: "https://lh3.googleusercontent.com/d/1_RcWhQ-c-YdV9uvkUYk2zq4S7lXThJCk",
+        type: "rf",
+        question: "10. Richtig oder Falsch? Die beiden Frauen sind alleinerziehend und fahren zusammen mit ihren vier Kindern in den Urlaub.",
+        options: [
+            "Richtig",
+            "Falsch"
+        ],
+        correct: 0,
+        explanation_de: "Sie erzählt: 'Wir sind beide alleinerziehend. Wir fahren zusammen in Urlaub dann mit vier Kindern und telefonieren jeden Tag.'",
+        explanation_es: "Cuenta que ambas son madres solteras, viajan juntas con los cuatro niños y se apoyan a diario.",
+        vocab: "alleinerziehend sein - ser padre/madre soltero/a; in den Urlaub fahren (ist in den Urlaub gefahren) - irse de vacaciones."
+    },
+
+    // PARTE 2
+    {
+        id: 11,
+        friend: "Bester Freund: Verstorbener Jugendfreund",
+        time: "6:43",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=403s",
+        image: "https://lh3.googleusercontent.com/d/1ZbEqFvEdTmB4-idoaFYY5tNAxOHwBDiP",
+        type: "mc",
+        question: "11. Was war das Geheimnis von dieser Freundschaft?",
+        options: [
+            "A) Sie haben jeden Tag zusammen Sport gemacht.",
+            "B) Gegenseitige Akzeptanz und ein bisschen Bewunderung.",
+            "C) Sie haben nie miteinander gestritten."
+        ],
+        correct: 1,
+        explanation_de: "Er sagt: 'Das Geheimnis war eine gegenseitige Akzeptanz und von meiner Seite aus so ein bisschen Bewunderung.'",
+        explanation_es: "Destaca que el secreto fue la aceptación mutua y la admiración que le tenía.",
+        vocab: "das Geheimnis, die Geheimnisse - el secreto, los secretos; die Akzeptanz - la aceptación; die Bewunderung - la admiración."
+    },
+    {
+        id: 12,
+        friend: "Zwei Frauen (Marlene & Freundin)",
+        time: "7:15",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=435s",
+        image: "https://lh3.googleusercontent.com/d/1i7fFRaoLG6LpZTYHXs4Nsvn5tmwzhNhc",
+        type: "mc",
+        question: "12. Was ist das Geheimnis von ihrer Freundschaft?",
+        options: [
+            "A) Sie haben sehr viele Gemeinsamkeiten, aber unterscheiden sich auch genug, sodass es sich gut ergänzt.",
+            "B) Sie wohnen seit vielen Jahren in derselben Wohnung.",
+            "C) Sie reisen jeden Monat zusammen in ein anderes Land."
+        ],
+        correct: 0,
+        explanation_de: "Sie sagt: 'Ich glaube, wir haben sehr viel Gemeinsamkeiten, aber unterscheiden uns auch in genug Sachen, dass es sich gut ergänzt.'",
+        explanation_es: "Explica que tienen muchas cosas en común, pero también las suficientes diferencias como para complementarse bien.",
+        vocab: "Gemeinsamkeiten haben – tener cosas en común; sich unterscheiden (hat sich unterschieden) - diferenciarse; sich ergänzen (hat sich ergänzt) - complementarse."
+    },
+    {
+        id: 13,
+        friend: "Beste Freundin: Aus der Studienzeit",
+        time: "7:33",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=453s",
+        image: "https://lh3.googleusercontent.com/d/1mdtO2Lb6Ek8u1KyDKyymhFbTUxkNeYvB",
+        type: "rf",
+        question: "13. Richtig oder Falsch? Die Frau meint, dass sie und ihre Freundin gemeinsam in Spanien im Urlaub waren.",
+        options: [
+            "Richtig",
+            "Falsch"
+        ],
+        correct: 0,
+        explanation_de: "Sie sagt: 'Gemeinsame Erlebnisse... Wir waren zusammen ja in Spanien.'",
+        explanation_es: "Menciona que las experiencias compartidas fortalecieron su amistad, como haber ido juntas de viaje a España.",
+        vocab: "das Erlebnis, die Erlebnisse - la experiencia compartida/vivencia, las experiencias."
+    },
+    {
+        id: 14,
+        friend: "Bester Freund: Tim",
+        time: "7:49",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=469s",
+        image: "https://lh3.googleusercontent.com/d/1152UgJNZKjnRVeAA1imvukn5Kpyg94EV",
+        type: "mc",
+        question: "14. Was passiert mit der 'sozialen Batterie' von dem Mann, wenn er Zeit mit Tim verbringt?",
+        options: [
+            "A) Sie wird sehr schnell leer.",
+            "B) Sie füllt sich eher auf.",
+            "C) Es ändert sich überhaupt nichts."
+        ],
+        correct: 1,
+        explanation_de: "Er erklärt: 'Es fühlt sich unfassbar natürlich an... die soziale Batterie geht davon nicht leer, sondern sie füllt sich eher.'",
+        explanation_es: "Explica que estar con su amigo no le agota, sino que le recarga la energía social.",
+        vocab: "sich anfühlen (hat sich angefühlt) – sentirse, z.B. etwas fühlt sich gut an; leergehen (ist leergegangen) - quedarse vacío/a, agotarse."
+    },
+    {
+        id: 15,
+        friend: "Bester Freund: Bobby",
+        time: "8:33",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=513s",
+        image: "https://lh3.googleusercontent.com/d/1nVDVe8O3ZZTdP1pa80jfqCbMa6TbSxNV",
+        type: "rf",
+        question: "15. Richtig oder Falsch? In schwierigen Lebensphasen (z. B. wenn Eltern sterben) hilft man sich gegenseitig sofort.",
+        options: [
+            "Richtig",
+            "Falsch"
+        ],
+        correct: 0,
+        explanation_de: "Er sagt: 'Wenn solche furchtbaren Dinge passieren... dann fährt man hin und hilft und ist einfach da.'",
+        explanation_es: "Afirma que la verdadera amistad se demuestra estando presente para ayudar en momentos duros.",
+        vocab: "Not haben – estar en situación de necesidad, necesitar ayuda; sterben (ist gestorben) - morir; furchtbare Dinge – cosas horribles."
+    },
+    {
+        id: 16,
+        friend: "Beste Freundin: Merle Alexandra",
+        time: "9:14",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=554s",
+        image: "https://lh3.googleusercontent.com/d/1PmXbBcZyy9nMuE7B97o5HCLSLvW3Qq_O",
+        type: "rf",
+        question: "16. Richtig oder Falsch? Merle hat geheiratet und zwei Kinder, während ihre Freundin das Singleleben genießt, aber sie finden trotzdem immer zueinander.",
+        options: [
+            "Richtig",
+            "Falsch"
+        ],
+        correct: 0,
+        explanation_de: "Sie sagt: 'Ich habe in der ganzen Zeit geheiratet, zwei Kinder... sie lebt alleine, hat das beste Singleleben... und wir finden trotzdem immer wieder zueinander.'",
+        explanation_es: "Explica que a pesar de tener estilos de vida muy diferentes (familia vs. soltería), su amistad sigue manteniéndolas muy unidas.",
+        vocab: "begleiten (hat begleitet) - acompañar; zueinander finden (hat zueinander gefunden) - reencontrarse el uno con el otro."
+    },
+    {
+        id: 17,
+        friend: "Beste Freundin: Marlene",
+        time: "9:36",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=576s",
+        image: "https://lh3.googleusercontent.com/d/1i7fFRaoLG6LpZTYHXs4Nsvn5tmwzhNhc",
+        type: "mc",
+        question: "17. Welche schöne Erinnerung hat die Frau mit ihrer Freundesgruppe im Sommer?",
+        options: [
+            "A) Sie fahren nach Italien und mieten ein Boot.",
+            "B) Sie schwimmen zu einer Insel im Liebnitzsee und zelten dort unter den Sternen.",
+            "C) Sie wandern durch die Berge im Süden von Deutschland."
+        ],
+        correct: 1,
+        explanation_de: "Sie erzählt: 'Eine meiner Lieblingserinnerungen ist, dass wir im Sommer an den Liebnitzsee fahren... man kann auf eine Insel schwimmen und da zelten unter den Sternen.'",
+        explanation_es: "Cuenta que su recuerdo favorito de verano es ir al lago Liebnitzsee, nadar hasta una isla y acampar allí bajo las estrellas.",
+        vocab: "übernachten (hat übernachtet) - pasar la noche, pernoctar; der Stern, die Sterne - la estrella, las estrellas."
+    },
+    {
+        id: 18,
+        friend: "Bester Freund: Tim",
+        time: "10:10",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=610s",
+        image: "https://lh3.googleusercontent.com/d/1152UgJNZKjnRVeAA1imvukn5Kpyg94EV",
+        type: "rf",
+        question: "18. Richtig oder Falsch? Tim hat eine Biermarke gegründet und 1,5 Jahre lang niemandem davon erzählt, bis er 100 Leute zur Präsentation eingeladen hat.",
+        options: [
+            "Richtig",
+            "Falsch"
+        ],
+        correct: 0,
+        explanation_de: "Er erzählt: 'Er hat eine Biermarke gegründet und 1,5 Jahre keinem erzählt... erst als er das Bier in der Hand hatte, hat er 100 Leute eingeladen.'",
+        explanation_es: "Cuenta que Tim creó en secreto su propia marca de cerveza y la presentó por sorpresa a 100 amigos.",
+        vocab: "gründen (hat gegründet) - fundar, crear; umsetzen (hat umgesetzt) - llevar a cabo, realizar; etwas ist sau besonders = sehr besonders – algo es muy especial."
+    },
+    {
+        id: 19,
+        friend: "Bester Freund: Bobby",
+        time: "10:47",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=647s",
+        image: "https://lh3.googleusercontent.com/d/1nVDVe8O3ZZTdP1pa80jfqCbMa6TbSxNV",
+        type: "mc",
+        question: "19. Warum ist es lustig, mit Bobby einkaufen zu gehen?",
+        options: [
+            "A) Weil er nie genug Geld dabei hat.",
+            "B) Weil er kein Portemonnaie hat, in seinen Taschen kramt und immer Geldscheine herausfallen.",
+            "C) Weil er immer versucht zu handeln."
+        ],
+        correct: 1,
+        explanation_de: "Er lacht: 'Bobby hat kein Portemonnaie... er kramt in der Tasche und es fallen immer irgendwie 10 Euro raus.'",
+        explanation_es: "Explica que Bobby no usa billetera y siempre lleva billetes arrugados sueltos por los bolsillos.",
+        vocab: "das Bargeld - el dinero en efectivo; das Portemonnaie, die Portemonnaies - la cartera, las carteras; kramen (hat gekramt) - hurgar, buscar desordenadamente."
+    },
+    {
+        id: 20,
+        friend: "Beste Freundin: Claudia",
+        time: "11:52",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=712s",
+        image: "https://lh3.googleusercontent.com/d/1TS9XzhJPNpx_lUf97g8ofGqvjU7cloac",
+        type: "mc",
+        question: "20. Welche besondere Erfahrung hat die Frau gemacht, als sie in der Entwicklungshilfe in Afrika war?",
+        options: [
+            "A) Ihre Freundin hat sie dort besucht und beim Umzug geholfen.",
+            "B) Sie haben sich dort zum ersten Mal kennengelernt.",
+            "C) Sie haben zusammen ein Haus in Afrika gekauft."
+        ],
+        correct: 0,
+        explanation_de: "Sie erzählt: 'Als ich in der Entwicklungshilfe in Afrika war, hat sie uns besucht und hat uns beim Umzug geholfen... ab da waren wir wie Schwestern.'",
+        explanation_es: "Recuerda que su amiga voló a África para visitarla y ayudarla con la mudanza, fortaleciendo mucho su vínculo.",
+        vocab: "die Entwicklungshilfe - la ayuda al desarrollo; der Umzug, die Umzüge - la mudanza, las mudanzas; etwas (Akk) aufwärmen – “recalentar”."
+    },
+    {
+        id: 21,
+        friend: "Beste Freundin: Theresa",
+        time: "12:22",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=742s",
+        image: "https://lh3.googleusercontent.com/d/1_RcWhQ-c-YdV9uvkUYk2zq4S7lXThJCk",
+        type: "rf",
+        question: "21. Richtig oder Falsch? Wenn die beiden Frauen zusammen nach Kroatien fahren und ein Familienticket kaufen, sagt die Freundin immer aus Spaß: 'That's for my wife, our kids and me.'",
+        options: [
+            "Richtig",
+            "Falsch"
+        ],
+        correct: 0,
+        explanation_de: "Sie erzählt: 'Wir fahren sehr gerne nach Kroatien... wir kaufen immer ein Familienticket und dann sagt sie immer auf Englisch: Das ist für meine Frau, unsere vier Kinder und mich.'",
+        explanation_es: "Comenta entre risas que cuando viajan a Croacia compran una entrada familiar haciendo esa broma en la taquilla.",
+        vocab: "etwas ist woke – es progresista, social; einen Blick kriegen = bekommen – te miran (raro)."
+    },
+    {
+        id: 22,
+        friend: "Beste Freundin: Aus der Studienzeit",
+        time: "12:53",
+        ytUrl: "https://www.youtube.com/watch?v=zI8IEutHHD4&t=773s",
+        image: "https://lh3.googleusercontent.com/d/1mdtO2Lb6Ek8u1KyDKyymhFbTUxkNeYvB",
+        type: "rf",
+        question: "22. Richtig oder Falsch? Nach ein paar Gin Tonics in einer Bar in Spanien stellten die Frauen fest, dass sie stundenlang auf Spanisch gesprochen hatten.",
+        options: [
+            "Richtig",
+            "Falsch"
+        ],
+        correct: 0,
+        explanation_de: "Sie erzählt: 'Nach diesem Abend in der Bar haben wir festgestellt, dass wir uns stundenlang auf Spanisch unterhalten hatten.'",
+        explanation_es: "Recuerda entre risas que se dieron cuenta de que habían estado hablando horas en español sin notar el cambio de idioma.",
+        vocab: "einen trinken gehen – ir a tomar algo; quatschen – hablar, charlar; umsonst = gratis = kostenlos; das Schicksal – el destino, z.B. „das ist Schicksal“."
+    }
+];
+
+let userAnswers = {};
+let score = 0;
+
+function renderQuiz() {
+    const container = document.getElementById('quizContainer');
+    container.innerHTML = '';
+
+    quizData.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `q-card-${index}`;
+
+        const optionsHTML = item.options.map((opt, optIndex) => `
+            <button class="option-btn" 
+                    id="opt-${index}-${optIndex}" 
+                    onclick="selectOption(${index}, ${optIndex})">
+                ${opt}
+            </button>
+        `).join('');
+
+        card.innerHTML = `
+            <div class="question-header">
+                <div class="avatar">
+                    <img src="${item.image}" alt="Person ${index + 1}">
+                </div>
+                <div class="person-info">
+                    <div class="person-tag">Frage ${index + 1} von 22</div>
+                    <div class="friend-name">${item.friend}</div>
+                </div>
+                <a href="${item.ytUrl}" target="_blank" class="yt-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    Bei ${item.time} ansehen
+                </a>
+            </div>
+            <div class="question-text">${item.question}</div>
+            <div class="options-grid">
+                ${optionsHTML}
+            </div>
+            <div class="feedback-box" id="feedback-${index}">
+                <div id="feedback-text-${index}"></div>
+                <div style="margin-top: 6px;"><strong>Erklärung (DE):</strong> ${item.explanation_de}</div>
+                <div style="margin-top: 4px; color: #475569;"><strong>Explicación (ES):</strong> ${item.explanation_es}</div>
+                <div class="vocab-box">
+                    <div class="vocab-title">Wortschatz / Vocabulario:</div>
+                    <div>${item.vocab}</div>
+                </div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+function selectOption(qIndex, optIndex) {
+    if (userAnswers[qIndex] !== undefined) return;
+
+    userAnswers[qIndex] = optIndex;
+    const item = quizData[qIndex];
+    const isCorrect = optIndex === item.correct;
+
+    if (isCorrect) score++;
+
+    item.options.forEach((_, i) => {
+        const btn = document.getElementById(`opt-${qIndex}-${i}`);
+        btn.disabled = true;
+        if (i === item.correct) {
+            btn.classList.add('selected-correct');
+        } else if (i === optIndex && !isCorrect) {
+            btn.classList.add('selected-incorrect');
+        }
+    });
+
+    const feedbackBox = document.getElementById(`feedback-${qIndex}`);
+    const feedbackText = document.getElementById(`feedback-text-${qIndex}`);
+    
+    feedbackBox.classList.add('show');
+    if (isCorrect) {
+        feedbackBox.classList.add('feedback-correct');
+        feedbackText.innerHTML = '<strong>Richtig! / ¡Correcto!</strong>';
+    } else {
+        feedbackBox.classList.add('feedback-incorrect');
+        feedbackText.innerHTML = '<strong>Leider falsch / Incorrecto.</strong>';
+    }
+
+    const answeredCount = Object.keys(userAnswers).length;
+    document.getElementById('answeredCount').innerText = answeredCount;
+    document.getElementById('scoreCount').innerText = score;
+    document.getElementById('progressBar').style.width = `${(answeredCount / quizData.length) * 100}%`;
+
+    if (answeredCount === quizData.length) {
+        showFinalResults();
+    }
+}
+
+function showFinalResults() {
+    const resultsCard = document.getElementById('resultsCard');
+    const finalScore = document.getElementById('finalScore');
+    const finalMessage = document.getElementById('finalMessage');
+
+    finalScore.innerText = `${score} / ${quizData.length}`;
+
+    if (score === 22) {
+        finalMessage.innerText = 'Perfekt! Du hast alles auf Deutsch verstanden!';
+    } else if (score >= 17) {
+        finalMessage.innerText = 'Sehr gut! Dein Hörverstehen auf B1-Niveau ist stark.';
+    } else if (score >= 11) {
+        finalMessage.innerText = 'Gute Leistung! Du kannst das Video noch einmal mit Untertiteln ansehen.';
+    } else {
+        finalMessage.innerText = 'Nicht schlimm! Übung macht den Meister. Versuch es noch einmal!';
+    }
+
+    resultsCard.style.display = 'block';
+    resultsCard.scrollIntoView({ behavior: 'smooth' });
+}
+
+function restartQuiz() {
+    userAnswers = {};
+    score = 0;
+    document.getElementById('answeredCount').innerText = '0';
+    document.getElementById('scoreCount').innerText = '0';
+    document.getElementById('progressBar').style.width = '0%';
+    document.getElementById('resultsCard').style.display = 'none';
+    renderQuiz();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+renderQuiz();
+</script>
+
+</body>
+</html>
